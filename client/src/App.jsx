@@ -1,63 +1,65 @@
 /* eslint-disable react/prop-types */
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { parseSync } from "svgson";
-// import pretty from "pretty";
-import { recursiveToCamel } from "./helpers";
-// import { nanoid } from "nanoid";
+import { nanoid } from "nanoid";
+import { recursiveToCamel, groupBy } from "./utils";
+import SVGElement from "./components/SVGElement";
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import CreateComponent from "./pages/CreateComponent";
+
+/*
+Things I haved learned:
+how to dynamically render html tag in React
+how to group by hash
+how to recursively convert an object fields from snake case to camelCase
+  */
 
 const App = () => {
-  const data = `<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M32 32v432a16 16 0 0016 16h432" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="96" y="224" width="80" height="192" rx="20" ry="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="240" y="176" width="80" height="240" rx="20" ry="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="383.64" y="112" width="80" height="304" rx="20" ry="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>`;
+  const data = `<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 192L256.13 320l-47.95-48M191.95 320L144 272M305.71 192l-51.55 59"/></svg>`;
 
   function svgToComponent(svg) {
-    function groupBy(array, hashFn) {
-      return array.reduce((groups, item) => {
-        const hashValue = hashFn(item); // Apply the hash function
-        // Check if the hash exists in the object
-        groups[hashValue] = groups[hashValue] || [];
-        groups[hashValue].push(item.attributes);
-        return groups;
-      }, {});
-    }
     function categoryHash(item) {
-      return item.name; // Simple hash based on category property
+      return item.name; // hash based on name property
     }
 
     const data = parseSync(svg);
     const { attributes, children } = data;
     const elements = groupBy(children, categoryHash);
-
     const svgObject = recursiveToCamel({ attributes, elements });
+    svgObject.elementKeys = Object.keys(elements);
     svgObject.attributes.className = svgObject.attributes.class;
     delete svgObject.attributes.class;
-
-    console.log(svgObject);
     return svgObject;
   }
 
   const svg = svgToComponent(data);
-  console.log(svg.elements.rect);
 
   return (
-    <div className="text-2xl underline">
-      <div className="flex items-center justify-center w-[300px] h-[300px] text-red-800">
-        <svg {...svg.attributes}>
-          {svg?.elements?.path?.map((props, index) => {
-            return (
-              <path key={index} {...props}>
-                hello
-              </path>
-            );
-          })}
-          {svg?.elements?.rect?.map((props, index) => {
-            return (
-              <rect key={index} {...props}>
-                hello
-              </rect>
-            );
-          })}
-        </svg>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/create-component" element={<CreateComponent />}></Route>
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 };
 
 export default App;
+
+/* 
+<div className="flex flex-col items-center w-full">
+      <div className="flex items-center justify-center w-[40px] h-[40px]">
+        <svg {...svg.attributes}>
+          {svg.elementKeys.map((key) =>
+            svg.elements[key].map((item) => (
+              <SVGElement tag={key} key={nanoid()} elementProps={item} />
+            ))
+          )}
+        </svg>
+      </div>
+    </div>
+*/

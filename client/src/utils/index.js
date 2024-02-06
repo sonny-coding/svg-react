@@ -20,4 +20,14 @@ const recursiveToCamel = (item) => {
   );
 };
 
-export { snakeToCamel, recursiveToCamel };
+const groupBy = (array, hashFn) => {
+  return array.reduce((groups, item) => {
+    const hashValue = hashFn(item); // Apply the hash function
+    // Check if the hash exists in the object
+    groups[hashValue] = groups[hashValue] || [];
+    groups[hashValue].push(item.attributes);
+    return groups;
+  }, {});
+};
+
+export { snakeToCamel, recursiveToCamel, groupBy };
