@@ -1,40 +1,28 @@
-// import Editor from "@monaco-editor/react";
-import { useState } from "react";
-const data = `<a href="https://css.tricks.com/"></a>`;
+import Editable from "../components/Editable";
+
+// const data = `<a href="https://css.tricks.com/"></a>`;
 
 const CreateComponent = () => {
-  const [code, setCode] = useState(data);
-  const handleChange = (event) => {
-    let newCode = event.target.value;
-    if (newCode[newCode.length - 1] == "\n") {
-      // If the last character is a newline character
-      newCode += " "; // Add a placeholder space character to the final line
-    }
-    newCode
-      .replace(new RegExp("&", "g"), "&")
-      .replace(new RegExp("<", "g"), "<");
-    setCode(newCode);
-  };
-  const handleTab = () => {};
+  // const [code, setCode] = useState(data);
+
   return (
-    <div className="relative flex flex-row">
-      <textarea
-        className=" p-2 m-2 outline-none border-0 w-[calc(100%-2rem)] text-[15px] leading-[20px] font-mono overflow-auto resize-none z-20 bg-transparent text-black caret-slate-500"
-        name=""
-        id=""
-        // cols="30"
-        // rows="10"
-        value={code}
-        onChange={handleChange}
-        spellCheck={false}
-        onKeyDown={handleTab}
-      ></textarea>
-      <pre
-        className=" p-2 m-2 border-0 w-[calc(100%-2rem)] text-[15px] leading-[20px] font-mono overflow-auto z-10"
-        aria-hidden={true}
+    <div className="grid w-full grid-cols-2 gap-2 mt-10">
+      {/* <pre
+        className="p-2 m-2 border-0 w-[calc(100%-2rem)] font-mono overflow-auto z-10"
+        
       >
         <code>{code}</code>
-      </pre>
+      </pre> */}
+
+      {/* <input type="text" placeholder="Icon" className="w-full p-2 rounded-md" /> */}
+      <div className="rounded-md bg-slate-blue"></div>
+      <input
+        type="text"
+        className="col-span-1 col-start-2 p-2 text-base font-bold text-black rounded-md outline-none bg-slate-blue placeholder-slate-600"
+        placeholder="Component name..."
+      />
+      <Editable type="input" />
+      <Editable type="output" />
     </div>
   );
 };

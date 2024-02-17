@@ -36,13 +36,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/create-component" element={<CreateComponent />}></Route>
-        </Routes>
-      </main>
+      <div className="w-full min-h-screen bg-cloud">
+        <Header />
+        <main className="w-full max-w-[900px] mx-auto">
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route
+              path="/create-component"
+              element={<CreateComponent />}
+            ></Route>
+          </Routes>
+        </main>
+      </div>
     </BrowserRouter>
   );
 };

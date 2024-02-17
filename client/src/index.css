@@ -1,9 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
-
-* {
-  font-family: "Inter", sans-serif;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+ colors: {
+        cloud: "#2D3250",
+        blue: "#424769",
+        "slate-blue": "#7077A1",
+        peach: "#F6B17A",
+
+        "outer-space": "#292d3e",
+      }, */
