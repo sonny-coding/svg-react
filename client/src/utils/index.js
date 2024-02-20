@@ -1,3 +1,5 @@
+import { parseSync } from "svgson";
+
 const snakeToCamel = (str) =>
   str
     .toLowerCase()
@@ -30,4 +32,19 @@ const groupBy = (array, hashFn) => {
   }, {});
 };
 
-export { snakeToCamel, recursiveToCamel, groupBy };
+const svgToComponent = (svg) => {
+  const categoryHash = (item) => {
+    return item.name; // hash based on name property
+  };
+
+  const data = parseSync(svg);
+  const { attributes, children } = data;
+  const elements = groupBy(children, categoryHash);
+  const svgObject = recursiveToCamel({ attributes, elements });
+  svgObject.elementKeys = Object.keys(elements);
+  svgObject.attributes.className = svgObject.attributes.class;
+  delete svgObject.attributes.class;
+  return svgObject;
+};
+
+export { snakeToCamel, recursiveToCamel, groupBy, svgToComponent };

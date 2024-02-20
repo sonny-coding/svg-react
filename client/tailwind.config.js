@@ -9,7 +9,7 @@ export default {
         blue: "#424769",
         "slate-blue": "#7077A1",
         peach: "#F6B17A",
-        "outer-space": "#292d3e",
+        "outer-space": "#2a2734",
       },
     },
   },
