@@ -32,7 +32,7 @@ const groupBy = (array, hashFn) => {
   }, {});
 };
 
-const svgToComponent = (svg) => {
+const svgToObject = (svg) => {
   const categoryHash = (item) => {
     return item.name; // hash based on name property
   };
@@ -47,4 +47,9 @@ const svgToComponent = (svg) => {
   return svgObject;
 };
 
-export { snakeToCamel, recursiveToCamel, groupBy, svgToComponent };
+const objectToFn = (svg) => {
+  const svgObj = svgToObject(svg);
+  return `import React from "react"`;
+};
+
+export { snakeToCamel, recursiveToCamel, groupBy, svgToObject, objectToFn };
