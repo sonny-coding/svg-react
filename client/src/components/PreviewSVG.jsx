@@ -5,9 +5,8 @@ import { svgToObject } from "../utils";
 import SVGElement from "./SVGElement";
 
 // eslint-disable-next-line react/prop-types
-const Preview = ({ svg, setPreview, name }) => {
+const PreviewSVG = ({ svg, setPreview, name }) => {
   const svgObj = svgToObject(svg);
-  console.log(svgObj);
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-white/30 backdrop-blur-md">
       <div className="mt-[100px] mx-auto w-full max-w-[300px] h-auto bg-white rounded-md flex flex-col items-center p-2">
@@ -36,4 +35,4 @@ const Preview = ({ svg, setPreview, name }) => {
   );
 };
 
-export default Preview;
+export default PreviewSVG;
