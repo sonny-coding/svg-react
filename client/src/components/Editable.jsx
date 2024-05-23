@@ -8,21 +8,24 @@ import copy from "copy-text-to-clipboard";
 import Copy from "./svg/Copy";
 import Delete from "./svg/Delete";
 import Eye from "./svg/Eye";
-import Folder from "./svg/Folder";
+// import Folder from "./svg/Folder";
 
 const Editable = ({
   type,
   code,
   setCode,
   setPreview,
-  name,
-  setName,
   deleteInput,
+  isDisabled,
 }) => {
   const editorRef = useRef(null);
   const onEditableChange = useCallback((code) => {
     setCode(code.slice(0, -1));
   }, []);
+
+  const handleClick = () => {
+    editorRef.current.focus();
+  };
 
   useEditable(editorRef, onEditableChange, {
     disabled: false,
@@ -30,30 +33,28 @@ const Editable = ({
   });
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-md">
+    <div className="flex flex-col w-full overflow-hidden rounded-md">
       <div className="flex content-center justify-end w-full gap-4 p-2 bg-slate-blue group">
-        {type === "input" && (
-          <p className="mr-auto font-bold group-hover:text-white">Input</p>
-        )}
-        {/* <p className="mr-auto font-bold group-hover:text-white">
-          {type === "output" ? `${name}` : "Input"}
-        </p> */}
-        {type === "output" && (
-          <input
-            className="mr-auto font-bold outline-none bg-slate-blue group-hover:text-white"
-            value={name}
-            onChange={(event) => {
-              setName(event.target.value);
-            }}
-          />
-        )}
+        {/* {type === "input" && (
+          <p className="mr-auto text-base font-semibold">SVG Input</p>
+        )} */}
+        {/* {type === "output" && (
+          // <p className="mr-auto text-base font-semibold">{name}</p>
+          // <input
+          //   className="mr-auto text-base font-semibold outline-none bg-slate-blue group-hover:text-white"
+          //   value={name}
+          //   onChange={(event) => {
+          //     setName(event.target.value);
+          //   }}
+          // />
+        )} */}
         {type === "input" && (
           <>
-            <div className="flex items-center justify-center w-5 hover:cursor-pointer hover:text-white">
-              {<Folder />}
-            </div>
+            {/* <div className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white">
+              <Folder />
+            </div> */}
             <div
-              className="flex items-center justify-center w-5 hover:cursor-pointer hover:text-white"
+              className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white"
               onClick={deleteInput}
             >
               <Delete />
@@ -62,16 +63,17 @@ const Editable = ({
         )}
         {type === "output" && (
           <>
-            <div
-              className="flex items-center justify-center w-5 hover:cursor-pointer hover:text-white"
+            <button
+              className={`flex items-center justify-center w-7 hover:cursor-pointer hover:text-white disabled:text-sky-500`}
               onClick={() => {
                 setPreview(true);
               }}
+              disabled={isDisabled}
             >
               {<Eye />}
-            </div>
+            </button>
             <div
-              className="flex items-center justify-center w-5 hover:cursor-pointer hover:text-white"
+              className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white"
               onClick={() => {
                 copy(code);
               }}
@@ -81,7 +83,10 @@ const Editable = ({
           </>
         )}
       </div>
-      <div className="w-full p-2 bg-outer-space">
+      <div
+        className="w-full p-2 bg-outer-space min-h-[400px] hover:cursor-text"
+        onClick={handleClick}
+      >
         <Highlight code={code} theme={themes.duotoneDark} language="jsx">
           {({ style, tokens, getTokenProps }) => (
             <pre
@@ -105,7 +110,6 @@ const Editable = ({
           )}
         </Highlight>
       </div>
-      {/* <Button>Hello</Button> */}
     </div>
   );
 };

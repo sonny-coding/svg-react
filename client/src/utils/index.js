@@ -42,36 +42,41 @@ const svgToObject = (svg) => {
 };
 
 const svgToJSX = (svg, outputName) => {
-  const COLOR = "{color}";
-  const svgObj = svgToObject(svg);
-  console.log("🚀 ~ svgToJSX ~ svgObj:", svgObj);
+  try {
+    const name = outputName || "Icon";
+    const COLOR = "{color}";
+    const svgObj = svgToObject(svg);
+    console.log("🚀 ~ svgToJSX ~ svgObj:", svgObj);
 
-  const svgProps = Object.entries(svgObj.attributes).map(([key, value]) => {
-    return `${key}="${value}"\n\t\t\t`;
-  });
-
-  let elementProps = [];
-  for (const key in svgObj.elements) {
-    const elements = svgObj.elements[key];
-    console.log("🚀 ~ svgToJSX ~ elements:", elements);
-
-    elements.forEach((element) => {
-      let result = "";
-      for (const [key, value] of Object.entries(element)) {
-        result += `${key}="${value}"\n\t\t\t\t`;
-      }
-      result = `<${key}\n\t\t\t\t\t${result}></${key}>`;
-      elementProps.push(result.replace(`"currentColor"`, COLOR));
+    const svgProps = Object.entries(svgObj.attributes).map(([key, value]) => {
+      return `${key}="${value}"\n\t\t\t`;
     });
-  }
 
-  const jsx = `const ${outputName} = ({color = "currentColor"}) => {\n${INDENT}return (\n${INDENT.repeat(
-    2
-  )}<svg\n${INDENT.repeat(3)}${svgProps.join("")}>\n${INDENT.repeat(
-    4
-  )}${elementProps.join("\n\t\t\t")}
-  </svg>\n${INDENT.repeat(1)});\n};\nexport default ${outputName};`;
-  return jsx;
+    let elementProps = [];
+    for (const key in svgObj.elements) {
+      const elements = svgObj.elements[key];
+      console.log("🚀 ~ svgToJSX ~ elements:", elements);
+
+      elements.forEach((element) => {
+        let result = "";
+        for (const [key, value] of Object.entries(element)) {
+          result += `${key}="${value}"\n${INDENT.repeat(5)}`;
+        }
+        result = `<${key}\n${INDENT.repeat(5)}${result}></${key}>`;
+        elementProps.push(result.replace(`"currentColor"`, COLOR));
+      });
+    }
+
+    const jsx = `const ${name} = ({color = "currentColor"}) => {\n${INDENT}return (\n${INDENT.repeat(
+      2
+    )}<svg\n${INDENT.repeat(3)}${svgProps.join("")}>\n${INDENT.repeat(
+      4
+    )}${elementProps.join("\n\t\t\t\t")}
+  </svg>\n${INDENT.repeat(1)});\n};\nexport default ${name};`;
+    return jsx;
+  } catch (error) {
+    return "// Invalid Input";
+  }
 };
 
 export { recursiveToCamel, groupBy, svgToObject, svgToJSX };

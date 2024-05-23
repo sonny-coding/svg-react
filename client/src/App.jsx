@@ -9,7 +9,7 @@ const App = () => {
     <BrowserRouter>
       <div className="w-full min-h-screen font-barlow">
         <Header />
-        <main className="w-full max-w-[900px] mx-auto p-2">
+        <main className="w-full max-w-[900px] mx-auto p-4">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/create-jsx" element={<CreateJSX />}></Route>

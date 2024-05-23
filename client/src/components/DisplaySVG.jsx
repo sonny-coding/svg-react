@@ -9,7 +9,7 @@ const DisplaySVG = ({ svgObj }) => {
       onClick={() => {
         copy("🦄🌈");
       }}
-      className="w-full hover:cursor-pointer max-w-[200px] h-auto mt-2 bg-slate-100 text-blue hover:text-slate-blue duration-150"
+      className="w-full hover:cursor-pointer max-w-[200px] h-auto mt-2 bg-slate-100 text-blue hover:text-slate-blue duration-150 hover:scale-110 transition-all"
     >
       <svg {...svgObj.attributes}>
         {svgObj.elementKeys.map((key) =>

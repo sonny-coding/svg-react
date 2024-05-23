@@ -7,7 +7,7 @@ const Header = () => {
         className="text-2xl font-semibold rounded-md hover:text-slate-blue"
         to="/"
       >
-        Reactify
+        SVG2JSX
       </Link>
       <Link
         className="text-lg font-semibold hover:text-slate-blue"
