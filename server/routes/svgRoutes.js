@@ -19,9 +19,6 @@ router.route("/").get(async (_, res) => {
 router.route("/").post(async (req, res) => {
   try {
     const { data, name } = req.body;
-    console.log("🚀 ~ router.route ~ name:", name);
-    console.log("🚀 ~ router.route ~ data:", data);
-
     const newSvg = await svgModel.create({
       data,
       name,

@@ -2,13 +2,13 @@
 /* eslint-disable react/jsx-key */
 import React, { useRef, useCallback } from "react";
 import { Highlight, themes } from "prism-react-renderer";
+import toast from "react-hot-toast";
+
 import { useEditable } from "use-editable";
 import copy from "copy-text-to-clipboard";
-// import Open from "./svg/Open";
 import Copy from "./svg/Copy";
 import Delete from "./svg/Delete";
 import Eye from "./svg/Eye";
-// import Folder from "./svg/Folder";
 
 const Editable = ({
   type,
@@ -35,27 +35,14 @@ const Editable = ({
   return (
     <div className="flex flex-col w-full overflow-hidden rounded-md">
       <div className="flex content-center justify-end w-full gap-4 p-2 bg-slate-blue group">
-        {/* {type === "input" && (
-          <p className="mr-auto text-base font-semibold">SVG Input</p>
-        )} */}
-        {/* {type === "output" && (
-          // <p className="mr-auto text-base font-semibold">{name}</p>
-          // <input
-          //   className="mr-auto text-base font-semibold outline-none bg-slate-blue group-hover:text-white"
-          //   value={name}
-          //   onChange={(event) => {
-          //     setName(event.target.value);
-          //   }}
-          // />
-        )} */}
         {type === "input" && (
           <>
-            {/* <div className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white">
-              <Folder />
-            </div> */}
             <div
               className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white"
-              onClick={deleteInput}
+              onClick={() => {
+                deleteInput();
+                toast.success("Input cleared");
+              }}
             >
               <Delete />
             </div>
@@ -76,6 +63,7 @@ const Editable = ({
               className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white"
               onClick={() => {
                 copy(code);
+                toast.success("Successfully copied.");
               }}
             >
               <Copy />

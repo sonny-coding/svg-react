@@ -1,5 +1,40 @@
 import { parseSync } from "svgson";
+// import jsdom from "jsdom";
 const INDENT = "  ";
+
+// const removeElement = (element, svgString) => {
+//   const { JSDOM } = jsdom;
+//   console.log("🚀 ~ removeElement ~ svgString:", svgString);
+//   const dom = new JSDOM(svgString);
+//   const gElement = dom.window.document.querySelector(element);
+//   if (!gElement) {
+//     return svgString;
+//   } else {
+//     const parentElement = gElement.parentNode;
+
+//     while (gElement.firstChild) {
+//       // pass down attributes
+//       // append the grandhild element to grandparent element
+//       for (const attr of gElement.attributes) {
+//         const value = attr.value;
+//         if (attr.namespaceURI) {
+//           gElement.firstChild.setAttributeNS(
+//             attr.namespaceURI,
+//             attr.name,
+//             value
+//           );
+//         } else {
+//           gElement.firstChild.setAttribute(attr.name, value);
+//         }
+//       }
+//       parentElement.appendChild(gElement.firstChild);
+//       // remove the the grandchild
+//       gElement.firstChild.remove();
+//     }
+//     gElement.remove();
+//     return dom.window.document.body.innerHTML.replace(/&nbsp;/g, " ");
+//   }
+// };
 
 // this function recursively change the key in an obj from snake to camel case
 const recursiveToCamel = (item) => {
@@ -30,14 +65,25 @@ const svgToObject = (svg) => {
   const categoryHash = (item) => {
     return item.name; // hash based on name property
   };
+  // remove the g element
+  // const modifiedSVG = removeElement("g", svg);
 
   const data = parseSync(svg);
   const { attributes, children } = data;
   const elements = groupBy(children, categoryHash);
   const svgObject = recursiveToCamel({ attributes, elements });
   svgObject.elementKeys = Object.keys(elements);
-  svgObject.attributes.className = svgObject.attributes.class;
   delete svgObject.attributes.class;
+  delete svgObject.attributes.width;
+  delete svgObject.attributes.height;
+  delete svgObject.attributes.version;
+  delete svgObject.attributes.id;
+  delete svgObject.attributes.style;
+  delete svgObject.attributes.x;
+  delete svgObject.attributes.y;
+  delete svgObject.attributes["xmlns:xlink"];
+  delete svgObject.attributes["xml:space"];
+
   return svgObject;
 };
 
@@ -45,6 +91,7 @@ const svgToJSX = (svg, outputName) => {
   try {
     const name = outputName || "Icon";
     const COLOR = "{color}";
+    // const modifiedSVG = removeElement("g", svg) = removeElement("g", svg);
     const svgObj = svgToObject(svg);
     console.log("🚀 ~ svgToJSX ~ svgObj:", svgObj);
 
