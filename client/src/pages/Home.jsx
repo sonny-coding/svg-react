@@ -13,12 +13,15 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/v1/svg", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://svg-react.onrender.com/api/v1/svg",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (response.ok) {
           const result = await response.json();
           setAllSVGs(result.data.reverse());

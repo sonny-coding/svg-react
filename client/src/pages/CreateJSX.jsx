@@ -24,16 +24,19 @@ const CreateJSX = () => {
     e.preventDefault();
     try {
       isSaving(true);
-      const response = await fetch("http://localhost:3000/api/v1/svg", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: input,
-          name: outputName,
-        }),
-      });
+      const response = await fetch(
+        "https://svg-react.onrender.com/api/v1/svg",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: input,
+            name: outputName,
+          }),
+        }
+      );
 
       await response.json();
       notify();
