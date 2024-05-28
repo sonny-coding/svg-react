@@ -79,7 +79,7 @@ const CreateJSX = () => {
             {saving ? "Saving..." : "Save"}
           </button>
         </form>
-        <div className="grid w-full grid-cols-2 gap-2 mt-10">
+        <div className="grid w-full grid-cols-1 gap-2 mt-10 md:grid-cols-2">
           {preview && !isDiabled && (
             <PreviewSVG
               setPreview={setPreview}

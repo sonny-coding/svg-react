@@ -59,7 +59,7 @@ const Home = () => {
         ) : (
           <p className="font-semibold">Recently Added</p>
         )}
-        <div className="grid w-full grid-cols-6 gap-3 mt-2">
+        <div className="grid w-full grid-cols-4 gap-3 mt-2 md:grid-cols-5 lg:grid-cols-7">
           <AllSVGs searchString={searchString} data={allSVGs} />
         </div>
       </div>

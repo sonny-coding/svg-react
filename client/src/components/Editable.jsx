@@ -41,7 +41,7 @@ const Editable = ({
               className="flex items-center justify-center w-7 hover:cursor-pointer hover:text-white"
               onClick={() => {
                 deleteInput();
-                toast.success("Input cleared");
+                toast.success("Input cleared.");
               }}
             >
               <Delete />
